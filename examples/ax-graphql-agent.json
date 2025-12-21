@@ -1,0 +1,33 @@
+{
+  "record_type": "AX",
+  "version": "1.0",
+  "agent": {
+    "name": "Workflow Arbiter",
+    "description": "Intent-based workflow orchestration for enterprise automation. Accepts tasks asynchronously and provides status updates."
+  },
+  "endpoints": [
+    {
+      "protocol": "graphql",
+      "url": "https://arbiter.example.com/graphql",
+      "auth": ["OIDC", "AWS_IAM"],
+      "content_type": "application/json"
+    }
+  ],
+  "capabilities": {
+    "intents": ["workflow_orchestration", "task_routing", "document_analysis"],
+    "async": true,
+    "supports_callbacks": true
+  },
+  "schema": {
+    "graphql_schema_url": "https://arbiter.example.com/.well-known/graphql-schema.graphql",
+    "introspection": true
+  },
+  "limits": {
+    "max_concurrent_tasks": 25,
+    "max_task_ttl_seconds": 3600
+  },
+  "security": {
+    "issuer": "https://arbiter.example.com",
+    "jwks_url": "https://arbiter.example.com/.well-known/jwks.json"
+  }
+}

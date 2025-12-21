@@ -1,0 +1,61 @@
+{
+  "record_type": "AX",
+  "version": "1.0",
+  "agent": {
+    "name": "Federated Agent Gateway",
+    "description": "Capability gateway exposing multiple interaction protocols (GraphQL, MCP, A2A, REST) for interoperable agent invocation across domains.",
+    "provider": "Example Org"
+  },
+  "endpoints": [
+    {
+      "protocol": "graphql",
+      "url": "https://gateway.example.org/graphql",
+      "auth": ["OIDC"],
+      "content_type": "application/json"
+    },
+    {
+      "protocol": "mcp",
+      "url": "https://gateway.example.org/mcp",
+      "auth": ["OIDC"],
+      "content_type": "application/json"
+    },
+    {
+      "protocol": "a2a",
+      "url": "https://gateway.example.org/a2a",
+      "auth": ["mTLS", "JWT"],
+      "content_type": "application/json"
+    },
+    {
+      "protocol": "rest",
+      "url": "https://gateway.example.org/v1/tasks",
+      "auth": ["OAuth2"],
+      "content_type": "application/json"
+    }
+  ],
+  "capabilities": {
+    "intents": ["tool_execution", "workflow_orchestration", "multi_agent_planning"],
+    "async": true,
+    "supports_callbacks": true,
+    "callback_modes": ["webhook", "subscription", "poll"]
+  },
+  "schema": {
+    "graphql_schema_url": "https://gateway.example.org/.well-known/graphql-schema.graphql",
+    "mcp_manifest_url": "https://gateway.example.org/.well-known/mcp-manifest.json",
+    "rest_openapi_url": "https://gateway.example.org/.well-known/openapi.json"
+  },
+  "limits": {
+    "max_concurrent_tasks": 50,
+    "rate_limit_per_minute": 600
+  },
+  "security": {
+    "issuer": "https://gateway.example.org",
+    "jwks_url": "https://gateway.example.org/.well-known/jwks.json",
+    "metadata_signature": "optional"
+  },
+  "extensions": {
+    "example_org.routing": {
+      "supports_delegation": true,
+      "supports_feedback_exchange": false
+    }
+  }
+}
