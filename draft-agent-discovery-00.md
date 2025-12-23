@@ -1,6 +1,8 @@
+```
 Internet-Draft                                              A. Sempf
 Intended status: Informational                          December 2025
 Expires: June 2026
+```
 
 # Agent Discovery Exchange (AX)
 
