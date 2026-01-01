@@ -1,0 +1,30 @@
+{
+  "record_type": "AX",
+  "version": "1.1",
+  "capability_hash": "bfc10756367f29dc5520dfd4e7b867a28c7abbfa4782f81fdd5f35a10ca0a4f1",
+  "agent": {
+    "name": "Example Arbiter",
+    "description": "Intent-based workflow arbitration engine",
+    "provider": "Example"
+  },
+  "endpoints": [
+    {
+      "protocol": "graphql",
+      "url": "https://arbiter.example.com/graphql",
+      "auth": ["AWS_IAM", "OIDC"]
+    },
+    {
+      "protocol": "a2a",
+      "url": "https://arbiter.example.com/a2a",
+      "auth": ["JWT"]
+    }
+  ],
+  "capabilities": {
+    "intents": [
+      "multi_agent_planning",
+      "workflow_orchestration"
+    ],
+    "async": true,
+    "supports_callbacks": true
+  }
+}
