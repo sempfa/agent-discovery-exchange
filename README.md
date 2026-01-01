@@ -115,8 +115,8 @@ These principles are reflected in both the specification and its release process
 
 AX is being developed as a series of Internet-Drafts, each layering additional capability:
 
-[Draft 00 — Core discovery mechanism](./draft-agent-discovery-00.md)
-[Draft 01 — Capability hashing](./draft-agent-discovery-01.md)
+ - [Draft 00 — Core discovery mechanism](./draft-agent-discovery-00.md)
+ - [Draft 01 — Capability hashing](./draft-agent-discovery-01.md)
 
 ...
 
