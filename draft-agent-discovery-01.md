@@ -45,9 +45,37 @@ AX is designed to:
 
 ## Discovery Mechanism (Unchanged)
 
-Agents MUST use existing DNS RR types.
+Agent Discovery Exchange (AX) defines a stable, internet-native discovery mechanism based on HTTPS retrieval of declarative agent metadata from a well-known location.
 
-Agents MAY expose AX documents via: `https://_agent.<domain>/.well-known/agent-exchange.json`
+All requirements in Draft-00 remain applicable.
+
+### Well-Known AX Resource
+
+An AX document MUST be retrievable via HTTPS at:
+
+`https://<domain>/.well-known/agent-exchange`
+
+The resource MUST return a valid AX document encoded as UTF-8 JSON and MUST conform to the AX schema defined in this specification.
+
+### Discovery Independence
+
+Discovery location and discovery semantics are independent of:
+
+ - agent execution protocols
+ - trust or governance frameworks
+ - registration or onboarding workflows
+ - marketplaces or exchanges
+
+AX discovery MUST remain usable as a pre-registration signal for any downstream system.
+
+### Optional Extensions
+
+Future drafts MAY define optional mechanisms for:
+ - delegation or indirection
+ - federation between discovery consumers
+ - trust signaling or attestation references
+
+Such mechanisms MUST NOT be required for basic AX compliance and MUST NOT modify the required .well-known HTTPS discovery path.
 
 ### Summary
 AX defines a discovery process in which a consumer:
@@ -106,6 +134,18 @@ Capability hashing is NOT intended to provide:
  - Trust establishment
 
 Those concerns are explicitly out of scope for this document.
+
+### Capability Hash Stability
+
+Draft-01 introduces capability hashing to enable consumers to detect changes in advertised capabilities without altering discovery semantics.
+
+The AX document MUST include a capability hash computed over the capability representation as defined in Section: Capability Surface.
+
+The presence or change of a capability hash:
+
+ - MUST NOT affect discovery location
+ - MUST NOT alter retrieval semantics
+ - MUST NOT imply trust, verification, or availability
 
 ### Capability Surface
 

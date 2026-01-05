@@ -63,12 +63,16 @@ AX is designed to be:
 
 ## Non-Goals
 
-- This specification does NOT:
+This specification does NOT:
+
 - Define agent execution semantics
 - Mandate a single communication protocol
 - Define authentication or authorization mechanisms
-- Require centralized registries
+- Define or require discovery registries
 - Replace existing API specifications
+- Define semantic search or ranking
+
+These concerns are explicitly left to downstream coordination layers.
 
 ## Architecture Overview
 
@@ -79,20 +83,47 @@ AX separates concerns as follows:
 
 ## Discovery Mechanism
 
-Agents publish Agent Exchange (AX) documents using existing DNS and HTTPS infrastructure.
+gent Discovery Exchange (AX) defines a lightweight, internet-native mechanism for discovering agent capability metadata using existing HTTPS infrastructure and conventions defined in RFC 8615.
 
-To prevent namespace collisions and ensure consistent discovery semantics, AX documents SHOULD be published using the well-known URI mechanism defined in RFC 8615.
+An AX-compliant agent MUST expose an AX document at a well-known HTTPS location under its administrative domain.
 
-The default discovery location is:
+### Well-Known AX Resource
 
-`https://_agent.<domain>/.well-known/agent-exchange.json`
+An AX document MUST be retrievable via HTTPS at the following location:
 
+`https://<domain>/.well-known/agent-exchange`
 
-The .well-known URI path provides a standardized, server-wide location for machine-readable metadata and site-wide services, and avoids conflicts with application-specific URL namespaces.
+The resource MUST return an AX document encoded as UTF-8 JSON and conforming to the AX schema defined in this specification.
 
-Agents MAY additionally expose AX documents at other HTTPS locations; however, AX consumers SHOULD attempt discovery via the .well-known location first.
+The well-known resource MUST be served over HTTPS and MUST be accessible without authentication.
 
-AX explicitly does not define discovery via custom DNS resource record types.
+### Domain Authority
+
+The `<domain>` used for discovery MUST be under the administrative control of the agent operator. Control of the domain implies authority to publish agent discovery metadata on behalf of the agent.
+
+AX does not define any semantic meaning for the domain name itself. Domain names are used solely for stable identity and reachability.
+
+### Discovery Semantics
+
+AX discovery is non-authoritative.
+
+Retrieval of an AX document:
+
+ - MUST NOT be interpreted as trust, endorsement, or verification
+ - MUST NOT imply availability, pricing, or service guarantees
+ - MUST NOT be treated as authorization to invoke the agent
+
+AX discovery provides only declarative metadata describing:
+ 
+ - advertised agent capabilities
+ - supported interaction protocols
+ - optional descriptive or informational attributes
+
+### Caching and Freshness
+
+Consumers of AX documents SHOULD respect standard HTTP caching semantics, including Cache-Control, ETag, and Last-Modified headers.
+
+AX does not mandate freshness guarantees. Consumers MAY cache AX documents and refresh them according to local policy.
 
 ## Agent Exchange (AX) Document
 
