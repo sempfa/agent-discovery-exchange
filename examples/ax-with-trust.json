@@ -1,0 +1,74 @@
+{
+  "record_type": "AX",
+  "version": "1.0",
+  "agent": {
+    "name": "Invoice Processing Agent",
+    "description": "Automates invoice validation and reconciliation for enterprise finance workflows.",
+    "provider": "ExampleCo"
+  },
+  "endpoints": [
+    {
+      "protocol": "a2a",
+      "url": "https://api.example.com/agents/invoice/a2a",
+      "auth": ["OIDC"],
+      "content_type": "application/json"
+    },
+    {
+      "protocol": "mcp",
+      "url": "https://api.example.com/agents/invoice/mcp",
+      "auth": ["mTLS"]
+    }
+  ],
+  "capabilities": {
+    "intents": ["finance.invoice.validate", "finance.invoice.reconcile"],
+    "async": true,
+    "supports_callbacks": true,
+    "callback_modes": ["webhook", "poll"]
+  },
+  "schema": {
+    "mcp_manifest_url": "https://api.example.com/agents/invoice/mcp/manifest.json",
+    "rest_openapi_url": "https://api.example.com/agents/invoice/openapi.json"
+  },
+  "security": {
+    "issuer": "https://security.example.com",
+    "jwks_url": "https://security.example.com/.well-known/jwks.json"
+  },
+  "extensions": {
+    "ax": {
+      "trust": {
+        "trust_tiers": ["self-asserted", "enterprise-attested", "third-party-attested"],
+        "attestations": [
+          {
+            "type": "ownership",
+            "scope": "agent-identity",
+            "issuer": {
+              "name": "ExampleCo Security",
+              "uri": "https://security.example.com"
+            },
+            "issued_at": "2026-01-15T00:00:00Z",
+            "expires_at": "2027-01-15T00:00:00Z",
+            "evidence": {
+              "format": "x509",
+              "reference": "https://security.example.com/attestations/invoice-agent.pem"
+            }
+          },
+          {
+            "type": "capability-validation",
+            "scope": "finance.invoice.*",
+            "issuer": {
+              "name": "Independent Audit Group",
+              "uri": "https://audit.example.org"
+            },
+            "issued_at": "2026-01-20T00:00:00Z",
+            "expires_at": "2026-07-20T00:00:00Z",
+            "evidence": {
+              "format": "signed-json",
+              "reference": "https://audit.example.org/attestations/invoice-agent.json"
+            }
+          }
+        ],
+        "notes": "Trust signals are advisory and MUST be evaluated under local policy before any interaction."
+      }
+    }
+  }
+}

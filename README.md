@@ -1,6 +1,6 @@
-# Agent Discovery Exchange (AX)
+# Agent Discovery eXchange (AX)
 
-Agent Discovery Exchange (AX) is an **open, internet-native discovery protocol** that enables AI agents to advertise their capabilities and supported interaction protocols in a standardized, machine-readable format using existing HTTPS infrastructure.
+Agent Discovery eXchange (AX) is an **open, internet-native discovery protocol** that enables AI agents to advertise their capabilities and supported interaction protocols in a standardized, machine-readable format using existing HTTPS infrastructure.
 
 AX is intentionally scoped to **discovery only**. It does **not** define execution semantics, trust models, governance workflows, or economic mechanisms. Instead, AX provides a **shared discovery substrate** that registries, exchanges, marketplaces, and coordination layers can consume **prior to registration, onboarding, trust evaluation, or execution decisions**.
 
@@ -131,6 +131,9 @@ AX is specified using Internet-Drafts and a JSON schema.
 
 * [**Draft-01**](./draft-agent-discovery-01.md): Capability hashing\
   Adds capability hashing to support efficient change detection without altering discovery semantics.
+
+* [**Draft-02**](./draft-agent-discovery-02.md): Trust & Attestation\
+  Adds optional trust tier declarations, attestation statements for provenance and verification, explicit support for multiple independent attestation authorities, and clear guidance that trust signals are advisory inputs rather than enforced controls.
 
 * [**AX JSON Schema**](./ax-schema.json)\
   Defines the structure of the AX document.
@@ -268,6 +271,67 @@ Capability hashing:
 * does not change discovery semantics,
 * does not imply trust,
 * enables consumers to detect meaningful changes efficiently.
+
+
+### Self-Asserted AX Document example
+
+Draft-02 introduces trust and attestation. Until the schema formally defines trust and attestation fields, implementations SHOULD carry trust in extensions to remain forward-compatible.
+
+```json
+{
+  "record_type": "AX",
+  "version": "1.0",
+  "agent": {
+    "name": "Travel Planner Agent",
+    "description": "Plans itineraries and provides travel recommendations based on user preferences.",
+    "provider": "ExampleCo"
+  },
+  "endpoints": [
+    {
+      "protocol": "rest",
+      "url": "https://api.example.com/agents/travel-planner",
+      "auth": ["OAuth2"],
+      "content_type": "application/json"
+    }
+  ],
+  "capabilities": {
+    "intents": [
+      "travel.itinerary.plan",
+      "travel.recommendation.generate"
+    ],
+    "async": true,
+    "supports_callbacks": true,
+    "callback_modes": ["webhook"]
+  },
+  "schema": {
+    "rest_openapi_url": "https://api.example.com/agents/travel-planner/openapi.json"
+  },
+  "security": {
+    "issuer": "https://example.com",
+    "jwks_url": "https://example.com/.well-known/jwks.json"
+  },
+  "extensions": {
+    "ax": {
+      "trust": {
+        "trust_tiers": ["self-asserted"],
+        "attestations": [
+          {
+            "type": "self-assertion",
+            "scope": "agent-metadata",
+            "issuer": {
+              "name": "ExampleCo",
+              "uri": "https://example.com"
+            },
+            "issued_at": "2026-01-20T00:00:00Z",
+            "notes": "Self-asserted trust metadata only. Consumers MUST apply local policy and verification before use."
+          }
+        ]
+      }
+    }
+  }
+}
+
+```
 
 
 ### Publishing an AX Document

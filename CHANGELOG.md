@@ -45,3 +45,31 @@ Editorial changes, formatting updates, and example additions are not individuall
 - Discovery semantics and retrieval behavior.
 - Separation between discovery, governance, and execution.
 
+## v0.3 [draft-agent-discovery-02] — 20 January 2026
+
+### Added
+
+ - Optional trust tier declarations as non-authoritative discovery metadata
+ - Attestation statements for expressing provenance and verification signals
+ - Explicit support for multiple, independent attestation authorities
+ - Clear layering clarification separating discovery, trust signaling, and execution governance
+ - Consumer guidance on interpreting trust signals as advisory inputs only
+ - Illustrative (non-normative) trust and attestation example
+
+### Clarified
+
+ - Trust signals do not imply authorization, approval, or endorsement
+ - AX remains registry-agnostic and execution-neutral
+ - Attestation mechanisms and formats are intentionally unconstrained
+
+### Deferred
+
+ - Agent-to-agent relationship semantics and reputation propagation
+ - Federation scoring models and trust graph construction
+ - Execution-time policy enforcement and approval workflows
+
+### No Change
+
+ - Core discovery mechanism and AX document structure
+ - Protocol-agnostic positioning (MCP, A2A, REST, GraphQL)
+ - Backward compatibility with Draft-00 and Draft-01

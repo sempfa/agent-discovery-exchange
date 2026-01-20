@@ -1,0 +1,49 @@
+{
+  "record_type": "AX",
+  "version": "1.0",
+  "agent": {
+    "name": "Travel Planner Agent",
+    "description": "Suggests itineraries and books travel components based on user preferences.",
+    "provider": "ExampleCo"
+  },
+  "endpoints": [
+    {
+      "protocol": "rest",
+      "url": "https://api.example.com/agents/travel-planner",
+      "auth": ["OAuth2"],
+      "content_type": "application/json"
+    }
+  ],
+  "capabilities": {
+    "intents": ["travel.itinerary.plan", "travel.booking.quote"],
+    "async": true,
+    "supports_callbacks": true,
+    "callback_modes": ["webhook"]
+  },
+  "schema": {
+    "rest_openapi_url": "https://api.example.com/agents/travel-planner/openapi.json"
+  },
+  "security": {
+    "issuer": "https://example.com",
+    "jwks_url": "https://example.com/.well-known/jwks.json"
+  },
+  "extensions": {
+    "ax": {
+      "trust": {
+        "trust_tier": "self-asserted",
+        "attestations": [
+          {
+            "type": "self-assertion",
+            "scope": "agent-metadata",
+            "issuer": {
+              "name": "ExampleCo",
+              "uri": "https://example.com"
+            },
+            "issued_at": "2026-01-20T00:00:00Z",
+            "notes": "Self-asserted metadata only. Consumers MUST apply local policy and verification before any interaction."
+          }
+        ]
+      }
+    }
+  }
+}
